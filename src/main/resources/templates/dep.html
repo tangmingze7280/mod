@@ -1,361 +1,391 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th= "http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
-  <meta charset="utf-8"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-  <meta name="description" content=""/>
-  <meta name="author" content=""/>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
 
-  <title>SB Admin - Dashboard</title>
+    <title>SB Admin - Dashboard</title>
 
-  <!-- Custom fonts for this template-->
-  <link href="vendor/fontawesome-free/css/all.min.css" th:href="@{/css/all.min.css}" rel="stylesheet" type="text/css"/>
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" th:href="@{/css/all.min.css}" rel="stylesheet"
+          type="text/css"/>
 
-  <!-- Page level plugin CSS-->
-  <link href="vendor/datatables/dataTables.bootstrap4.css" th:href="@{/vendor/datatables/dataTables.bootstrap4.css}" rel="stylesheet"/>
-  <link rel="stylesheet" th:href="@{/css/bootstrap-table.min.css}">
-  <link href="css/sb-admin.css" th:href="@{/css/sb-admin.min.css}" rel="stylesheet"/>
+    <!-- Page level plugin CSS-->
+    <link href="vendor/datatables/dataTables.bootstrap4.css" th:href="@{/vendor/datatables/dataTables.bootstrap4.css}"
+          rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-table.min.css}">
+    <link href="css/sb-admin.css" th:href="@{/css/sb-admin.min.css}" rel="stylesheet"/>
 
 </head>
 
 <body id="page-top">
 
-  <nav class="navbar navbar-expand navbar-dark bg-dark static-top" th:fragment="topbar">
+<nav class="navbar navbar-expand navbar-dark bg-dark static-top" th:fragment="topbar">
 
-    <a class="navbar-brand mr-1" href="index.html" >Start Bootstrap</a>
+    <a class="navbar-brand mr-1" href="index.html">Start Bootstrap</a>
 
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-      <i class="fas fa-bars"></i>
+        <i class="fas fa-bars"></i>
     </button>
 
     <!-- Navbar Search -->
     <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2"/>
-        <div class="input-group-append">
-          <button class="btn btn-primary" type="button">
-            <i class="fas fa-search"></i>
-          </button>
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search for..." aria-label="Search"
+                   aria-describedby="basic-addon2"/>
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
         </div>
-      </div>
     </form>
 
     <!-- Navbar -->
     <ul class="navbar-nav ml-auto ml-md-0">
-      <li class="nav-item dropdown no-arrow mx-1">
-        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-bell fa-fw"></i>
-          <span class="badge badge-danger">9+</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown no-arrow mx-1">
-        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-envelope fa-fw"></i>
-          <span class="badge badge-danger">7</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown no-arrow">
-        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-user-circle fa-fw"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-          <a class="dropdown-item" href="#">Settings</a>
-          <a class="dropdown-item" href="#">Activity Log</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
-        </div>
-      </li>
+        <li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-bell fa-fw"></i>
+                <span class="badge badge-danger">9+</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-envelope fa-fw"></i>
+                <span class="badge badge-danger">7</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown no-arrow">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-user-circle fa-fw"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="#">Settings</a>
+                <a class="dropdown-item" href="#">Activity Log</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+            </div>
+        </li>
     </ul>
 
-  </nav>
+</nav>
 
-  <div id="wrapper">
+<div id="wrapper">
 
     <!-- Sidebar -->
     <ul class="sidebar navbar-nav" th:fragment="sidebar">
-      <li class="nav-item " ><!---->
-        <a class="nav-link" th:href="@{/page/index}">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <!--<span th:text="${#request.getRequestURI()}">Dashboard</span>-->
-          <!--<span th:text="${#request.getRequestURI()}">首页</span>-->
-          <span >首页</span>
-        </a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" th:href="@{/page/dep}">
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>添加部门</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" th:href="@{/page/zzdj}">
-          <i class="fas fa-fw fa-table"></i>
-          <span>政治等级</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" th:href="@{/page/zw}">
-          <i class="fas fa-fw fa-table"></i>
-          <span>职位</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" th:href="@{/page/person}">
-          <i class="fas fa-fw fa-table"></i>
-          <span>人员</span></a>
-      </li>
+        <li class="nav-item "><!---->
+            <a class="nav-link" th:href="@{/page/index}">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <!--<span th:text="${#request.getRequestURI()}">Dashboard</span>-->
+                <!--<span th:text="${#request.getRequestURI()}">首页</span>-->
+                <span>首页</span>
+            </a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" th:href="@{/page/dep}">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>添加部门</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/page/zzdj}">
+                <i class="fas fa-fw fa-table"></i>
+                <span>政治等级</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/page/zw}">
+                <i class="fas fa-fw fa-table"></i>
+                <span>职位</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/page/person}">
+                <i class="fas fa-fw fa-table"></i>
+                <span>人员</span></a>
+        </li>
     </ul>
 
-    <div id="content-wrapper" >
+    <div id="content-wrapper">
 
-      <div class="container-fluid">
+        <div class="container-fluid">
 
-        <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <a th:href="@{/page/dep}">部门</a>
-          </li>
-          <li class="breadcrumb-item active">Overview</li>
-        </ol>
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a th:href="@{/page/dep}">部门</a>
+                </li>
+                <li class="breadcrumb-item active">Overview</li>
+            </ol>
 
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-table"></i>
-            部门</div>
-          <div class="card-body">
-            <div class="btn-group" role="group" >
-              <button type="button" class="btn btn-secondary" onclick="showAdd()">添加</button>
-              <button type="button" class="btn btn-secondary" onclick="showUpdate()">修改</button>
-              <button type="button" class="btn btn-secondary" onclick="deleteId()">删除</button>
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fas fa-table"></i>
+                    部门
+                </div>
+                <div class="card-body">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-secondary" onclick="showAdd()">添加</button>
+                        <button type="button" class="btn btn-secondary" onclick="showUpdate()">修改</button>
+                        <button type="button" class="btn btn-secondary" onclick="deleteId()">删除</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="depid">
+
+                        </table>
+                    </div>
+                </div>
             </div>
-            <div class="table-responsive">
-              <table id="depid">
 
-              </table>
+
+        </div>
+        <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <footer class="sticky-footer" th:fragment="cpfooter">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>啦啦啦 © 王迪 2019</span>
+                </div>
             </div>
-          </div>
-        </div>
-
-
-      </div>
-      <!-- /.container-fluid -->
-
-      <!-- Sticky Footer -->
-      <footer class="sticky-footer" th:fragment="cpfooter">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>啦啦啦 © 王迪 2019</span>
-          </div>
-        </div>
-      </footer>
+        </footer>
 
     </div>
     <!-- /.content-wrapper -->
 
-  </div>
-  <!-- /#wrapper -->
+</div>
+<!-- /#wrapper -->
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
-  </a>
+</a>
 
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="login.html">Logout</a>
+            </div>
         </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
     </div>
-  </div>
-  <div class="modal inmodal fade" id="myModal5" tabindex="-1" role="dialog"  aria-hidden="true">
+</div>
+<div class="modal inmodal fade" id="myModal5" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="form-group">
-              <label for="dpId">部门编号</label>
-              <input type="text" class="form-control" id="dpId"  placeholder="部门编号">
-              <small id="emailHelp" class="form-text text-muted">唯一</small>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
             </div>
-            <div class="form-group" id="select_text">
-              <label for="pid">上级部门</label>
-              <select class="form-control" id="pid">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="name">部门名称</label>
-              <input type="text" class="form-control" id="name" placeholder="部门上级">
-            </div>
-          </form>
-        </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="dpId">部门编号</label>
+                        <input type="text" class="form-control" id="dpId" placeholder="部门编号">
+                        <small id="emailHelp" class="form-text text-muted">唯一</small>
+                    </div>
+                    <div class="form-group" id="select_text">
 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn btn-primary" onclick="addDep()">保存</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">部门名称</label>
+                        <input type="text" class="form-control" id="name" placeholder="部门上级">
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="addDep()">保存</button>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js" th:src="@{/vendor/jquery/jquery.min.js}"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js" th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</div>
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js" th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"
+        th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js" th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js" th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
 
-  <!-- Page level plugin JavaScript-->
-  <script src="vendor/chart.js/Chart.min.js" th:src="@{/vendor/chart.js/Chart.min.js}"></script>
-  <script src="vendor/datatables/jquery.dataTables.js" th:src="@{/vendor/datatables/jquery.dataTables.js}"></script>
-  <script src="vendor/datatables/dataTables.bootstrap4.js" th:src="@{/js/bootstrap/js/bootstrap.min.js}"></script>
+<!-- Page level plugin JavaScript-->
+<script src="vendor/chart.js/Chart.min.js" th:src="@{/vendor/chart.js/Chart.min.js}"></script>
+<script src="vendor/datatables/jquery.dataTables.js" th:src="@{/vendor/datatables/jquery.dataTables.js}"></script>
+<script src="vendor/datatables/dataTables.bootstrap4.js" th:src="@{/js/bootstrap/js/bootstrap.min.js}"></script>
 
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin.min.js" th:src="@{/js/sb-admin.min.js}"></script>
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin.min.js" th:src="@{/js/sb-admin.min.js}"></script>
 
-  <!-- Demo scripts for this page-->
-  <script src="js/demo/datatables-demo.js"th:src="@{/js/demo/datatables-demo.js}" ></script>
-  <script src="js/demo/chart-area-demo.js"th:src="@{/js/demo/chart-area-demo.js}"></script>
-  <script th:src="@{/js/bootstrap/js/bootstrap-table.min.js}"></script>
-  <script>
+<!-- Demo scripts for this page-->
+<script src="js/demo/datatables-demo.js" th:src="@{/js/demo/datatables-demo.js}"></script>
+<script src="js/demo/chart-area-demo.js" th:src="@{/js/demo/chart-area-demo.js}"></script>
+<script th:src="@{/js/bootstrap/js/bootstrap-table.min.js}"></script>
+<script>
     $(function () {
-      initab()
+        initab()
     })
-
+    var dataDep = ''
     //初始化bootstrap-table的内容
-    var initab=function () {
-      //记录页面bootstrap-table全局变量$table，方便应用
-      var queryUrl ='/data/getAllListOfDepartment'
-      $table = $('#depid').bootstrapTable({
-        url: queryUrl,                      //请求后台的URL（*）
-        method: 'GET',                      //请求方式（*）
-        //toolbar: '#toolbar',              //工具按钮用哪个容器
-        striped: true,                      //是否显示行间隔色
-        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-        pagination: true,                   //是否显示分页（*）
-        sortable: true,                     //是否启用排序
-        sortOrder: "asc",                   //排序方式
-        sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
-        pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
-        pageSize: 10,                     //每页的记录行数（*）
-        pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
-        search: false,                      //是否显示表格搜索
-        strictSearch: true,
-        showColumns: true,                  //是否显示所有的列（选择显示的列）
-        showRefresh: true,                  //是否显示刷新按钮
-        minimumCountColumns: 2,             //最少允许的列数
-        clickToSelect: true,                //是否启用点击选中行
-        //height: 500,                      //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-        uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
-        showToggle: true,                   //是否显示详细视图和列表视图的切换按钮
-        cardView: false,                    //是否显示详细视图
-        detailView: false,                  //是否显示父子表
-        //得到查询的参数
-        queryParams : function (params) {
-          //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
-          var temp = {};
-          return temp;
-        },
-        responseHandler:function (rows) {
-          console.log(rows)
-          return rows.data;
-        },
-        columns: [{
-          checkbox: true,
-          visible: true                  //是否显示复选框
-        }, {
-          field: 'id',
-          title: '序号',
-          sortable: true
-        }, {
-          field: 'name',
-          title: '部门名称',
-          sortable: true
-        }, {
-          field: 'pid',
-          title: '上级部门',
-          sortable: true,
-        },{
-          field: 'dpId',
-          title: '项目唯一值'
-        } ],
-        onLoadSuccess: function () {
-          console.log('加载完成');
-        },
-        onLoadError: function () {
-          showTips("数据加载失败！");
-        },
-        onDblClickRow: function (row, $element) {
-          var id = row.ID;
-          EditViewById(id, 'view');
-        },
-      });
+    var initab = function () {
+        //记录页面bootstrap-table全局变量$table，方便应用
+        var queryUrl = '/data/getAllListOfDepartment'
+        $table = $('#depid').bootstrapTable({
+            url: queryUrl,                      //请求后台的URL（*）
+            method: 'GET',                      //请求方式（*）
+            //toolbar: '#toolbar',              //工具按钮用哪个容器
+            striped: true,                      //是否显示行间隔色
+            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            pagination: true,                   //是否显示分页（*）
+            sortable: true,                     //是否启用排序
+            sortOrder: "asc",                   //排序方式
+            sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+            pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
+            pageSize: 10,                     //每页的记录行数（*）
+            pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+            search: false,                      //是否显示表格搜索
+            strictSearch: true,
+            showColumns: true,                  //是否显示所有的列（选择显示的列）
+            showRefresh: true,                  //是否显示刷新按钮
+            minimumCountColumns: 2,             //最少允许的列数
+            clickToSelect: true,                //是否启用点击选中行
+            //height: 500,                      //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+            showToggle: true,                   //是否显示详细视图和列表视图的切换按钮
+            cardView: false,                    //是否显示详细视图
+            detailView: false,                  //是否显示父子表
+            //得到查询的参数
+            queryParams: function (params) {
+                //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
+                var temp = {};
+                return temp;
+            },
+            responseHandler: function (rows) {
+                console.log(rows);
+                dataDep = rows.data;
+                return rows.data;
+            },
+            columns: [{
+                checkbox: true,
+                visible: true                  //是否显示复选框
+            }, {
+                field: 'id',
+                title: '序号',
+                sortable: true
+            }, {
+                field: 'name',
+                title: '部门名称',
+                sortable: true
+            }, {
+                field: 'pid',
+                title: '上级部门',
+                sortable: true,
+            }, {
+                field: 'dpId',
+                title: '项目唯一值'
+            }],
+            onLoadSuccess: function () {
+                console.log('加载完成');
+                var target = dataDep.map((e) => {
+                    var a = new Array();
+                    var x = {
+                        dpId: e.dpId,
+                        name: e.name
+                    }
+                    a.push(x)
+                    return a;
+                });
+                console.log(target)
+                var options = '';
+                for (var i = 0; i < target.length; i++) {
+                    options += "<option value='" + target[i][0].dpId + "'>" + target[i][0].name + "</option>"
+                }
+                var htmlText = ` <label for="pid">上级部门</label>
+              <select class="form-control" id="pid">
+               ${options}
+              </select>`;
+                console.log(htmlText);
+                $('#select_text').html(htmlText)
+            },
+            onLoadError: function () {
+                showTips("数据加载失败！");
+            },
+            onDblClickRow: function (row, $element) {
+                var id = row.ID;
+                EditViewById(id, 'view');
+            },
+        });
     };
-    var EditViewById=function (value) {
-      console.log(value);
+    var EditViewById = function (value) {
+        console.log(value);
     }
-    var DeleteByIds=function (value) {
-      console.log(value)
+    var DeleteByIds = function (value) {
+        console.log(value)
     }
-    function showAdd(){
 
-      $('#myModal5').modal('show');
+    function showAdd() {
 
-    }
-    function showUpdate(){
+        $('#myModal5').modal('show');
 
     }
-    function deleteId(){
+
+    function showUpdate() {
 
     }
+
+    function deleteId() {
+
+    }
+
     function addDep() {
-      let pid=$("#pid").val();
-      let dpid=$("#dpId").val();
-      let name=$("#name").val();
-      var params={pid,dpid,name};
-      console.log(params);
-      $.get({
-        url:'/data/adddep',
-        data:params,
-        dataType:'json',
-        success:function (data) {
-          console.log(data);
-          $('#depid').bootstrapTable('refresh',{slient:true})
-          $('#myModal5').modal('hide');
-        }
-      })
+        let pid = $("#pid").val();
+        let dpid = $("#dpId").val();
+        let name = $("#name").val();
+        var params = {pid, dpid, name};
+        console.log(params);
+        $.get({
+            url: '/data/adddep',
+            data: params,
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                $('#depid').bootstrapTable('refresh', {slient: true})
+                $('#myModal5').modal('hide');
+                $("#pid").val('');
+                $("#name").val('')
+            }
+        })
     }
 
-  </script>
+</script>
 </body>
 
 </html>
