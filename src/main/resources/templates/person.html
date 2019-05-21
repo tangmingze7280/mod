@@ -26,7 +26,7 @@
 
   <nav class="navbar navbar-expand navbar-dark bg-dark static-top" th:fragment="topbar">
 
-    <a class="navbar-brand mr-1" href="index.html" th:text="${userInfo.getName()}">Start Bootstrap</a>
+    <a class="navbar-brand mr-1" href="index.html" >Start Bootstrap</a>
 
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
@@ -97,22 +97,6 @@
           <span >首页</span>
         </a>
       </li>
-      <!--<li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>Pages</span>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-          <h6 class="dropdown-header">Login Screens:</h6>
-          <a class="dropdown-item" th:href="@{/login}">Login</a>
-          <a class="dropdown-item" th:href="@{/register}">Register</a>
-          <a class="dropdown-item" th:href="@{/forgot-password}">Forgot Password</a>
-          <div class="dropdown-divider"></div>
-          <h6 class="dropdown-header">Other Pages:</h6>
-          <a class="dropdown-item" th:href="@{/error/404}">404 Page</a>
-          <a class="dropdown-item" th:href="@{/blank}">Blank Page</a>
-        </div>
-      </li>-->
       <li class="nav-item">
         <a class="nav-link" th:href="@{/page/dep}">
           <i class="fas fa-fw fa-chart-area"></i>
@@ -142,7 +126,7 @@
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a th:href="@{index.html}">Dashboard</a>
+            <a th:href="@{/page/person}">人员</a>
           </li>
           <li class="breadcrumb-item active">Overview</li>
         </ol>
