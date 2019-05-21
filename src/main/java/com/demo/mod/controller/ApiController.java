@@ -1,5 +1,6 @@
 package com.demo.mod.controller;
 
+import com.demo.mod.dao.DepartmentDao;
 import com.demo.mod.entity.Department;
 import com.demo.mod.result.CommonResult;
 import com.demo.mod.service.MainService;
@@ -19,6 +20,8 @@ public class ApiController {
     private final static Logger LOGGER= LoggerFactory.getLogger(ApiController.class);
     @Autowired
     MainService mainService;
+    @Autowired
+    DepartmentDao departmentDao;
     @RequestMapping("/getAllListOfDepartment")
     public CommonResult getAllListOfDepartment(){
         CommonResult commonResult=new CommonResult();
@@ -36,6 +39,21 @@ public class ApiController {
         commonResult.setMsg("新增成功");
         if(!mainService.addDep(department))
             commonResult.setMsg("新增失败");
+        return commonResult;
+    }
+    @RequestMapping("/deleteDep")
+    public CommonResult deleteDep(@RequestParam  Map<String,Object>map){
+        CommonResult commonResult=new CommonResult();
+        commonResult.setMsg("删除成功！");
+       /* try{
+            for(Object[] mp:list) {
+                departmentDao.deleteById(Integer.valueOf((String) mp[4]));
+                departmentDao.deleteById(Integer.valueOf((String) mp[1]));
+            }
+        }catch (Exception e){
+            commonResult.setMsg("被占用上级不能被删除");
+            e.printStackTrace();
+        }*/
         return commonResult;
     }
 

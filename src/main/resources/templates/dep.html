@@ -358,11 +358,28 @@
     }
 
     function showUpdate() {
+        var rows=$('#depid').bootstrapTable('getSelections')
+        console.log(rows)
+        if(rows.length>1){
+            alert('只能选择一个！去修改')
+            return ;
+        }
+        var row=rows[0];
 
     }
 
     function deleteId() {
-
+        var rows=$('#depid').bootstrapTable('getSelections')
+        console.log(rows)
+        var params={rows}
+        $.get({
+            url: '/data/deleteDep',
+            data: params,
+            dataType: 'json',
+            success: function (data) {
+                alert(data.msg)
+            }
+        })
     }
 
     function addDep() {
@@ -377,10 +394,12 @@
             dataType: 'json',
             success: function (data) {
                 console.log(data);
+                $("#pid").val('');
                 $('#depid').bootstrapTable('refresh', {slient: true})
                 $('#myModal5').modal('hide');
-                $("#pid").val('');
-                $("#name").val('')
+
+                $("#name").val('');
+                $('#dpId').val('')
             }
         })
     }
