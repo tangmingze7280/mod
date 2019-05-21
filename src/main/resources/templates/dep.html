@@ -369,9 +369,9 @@
     }
 
     function deleteId() {
-        var rows=$('#depid').bootstrapTable('getSelections')
+        var rows=$('#depid').bootstrapTable('getSelections');
         console.log(rows)
-        var params={rows}
+        var params={rows};
         $.get({
             url: '/data/deleteDep',
             data: params,

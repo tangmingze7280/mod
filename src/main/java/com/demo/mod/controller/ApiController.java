@@ -7,6 +7,7 @@ import com.demo.mod.service.MainService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,7 +43,8 @@ public class ApiController {
         return commonResult;
     }
     @RequestMapping("/deleteDep")
-    public CommonResult deleteDep(@RequestParam  Map<String,Object>map){
+    public CommonResult deleteDep(@RequestParam Map map){
+
         CommonResult commonResult=new CommonResult();
         commonResult.setMsg("删除成功！");
        /* try{
