@@ -16,8 +16,7 @@
 
   <!-- Page level plugin CSS-->
   <link href="vendor/datatables/dataTables.bootstrap4.css" th:href="@{/vendor/datatables/dataTables.bootstrap4.css}" rel="stylesheet"/>
-
-  <!-- Custom styles for this template-->
+  <link rel="stylesheet" th:href="@{/css/bootstrap-table.min.css}">
   <link href="css/sb-admin.css" th:href="@{/css/sb-admin.min.css}" rel="stylesheet"/>
 
 </head>
@@ -131,70 +130,20 @@
           <li class="breadcrumb-item active">Overview</li>
         </ol>
 
-        <!-- Icon Cards-->
-        <div class="row">
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-primary o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-comments"></i>
-                </div>
-                <div class="mr-5">26 New Messages!</div>
-              </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <span class="float-left">View Details</span>
-                <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span>
-              </a>
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-table"></i>
+            部门</div>
+          <div class="card-body">
+            <div class="btn-group" role="group" >
+              <button type="button" class="btn btn-secondary" onclick="showAdd()">添加</button>
+              <button type="button" class="btn btn-secondary" onclick="showUpdate()">修改</button>
+              <button type="button" class="btn btn-secondary" onclick="deleteId()">删除</button>
             </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-warning o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-list"></i>
-                </div>
-                <div class="mr-5">11 New Tasks!</div>
-              </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <span class="float-left">View Details</span>
-                <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span>
-              </a>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-success o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-shopping-cart"></i>
-                </div>
-                <div class="mr-5">123 New Orders!</div>
-              </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <span class="float-left">View Details</span>
-                <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span>
-              </a>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-danger o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-life-ring"></i>
-                </div>
-                <div class="mr-5">13 New Tickets!</div>
-              </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <span class="float-left">View Details</span>
-                <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span>
-              </a>
+            <div class="table-responsive">
+              <table id="depid">
+
+              </table>
             </div>
           </div>
         </div>
@@ -241,7 +190,43 @@
       </div>
     </div>
   </div>
+  <div class="modal inmodal fade" id="myModal5" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="dpId">部门编号</label>
+              <input type="text" class="form-control" id="dpId"  placeholder="部门编号">
+              <small id="emailHelp" class="form-text text-muted">唯一</small>
+            </div>
+            <div class="form-group" id="select_text">
+              <label for="pid">上级部门</label>
+              <select class="form-control" id="pid">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="name">部门名称</label>
+              <input type="text" class="form-control" id="name" placeholder="部门上级">
+            </div>
+          </form>
+        </div>
 
+        <div class="modal-footer">
+          <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" onclick="addDep()">保存</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js" th:src="@{/vendor/jquery/jquery.min.js}"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js" th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
@@ -252,7 +237,7 @@
   <!-- Page level plugin JavaScript-->
   <script src="vendor/chart.js/Chart.min.js" th:src="@{/vendor/chart.js/Chart.min.js}"></script>
   <script src="vendor/datatables/jquery.dataTables.js" th:src="@{/vendor/datatables/jquery.dataTables.js}"></script>
-  <script src="vendor/datatables/dataTables.bootstrap4.js" th:src="@{/vendor/datatables/dataTables.bootstrap4.js}"></script>
+  <script src="vendor/datatables/dataTables.bootstrap4.js" th:src="@{/js/bootstrap/js/bootstrap.min.js}"></script>
 
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin.min.js" th:src="@{/js/sb-admin.min.js}"></script>
@@ -260,7 +245,117 @@
   <!-- Demo scripts for this page-->
   <script src="js/demo/datatables-demo.js"th:src="@{/js/demo/datatables-demo.js}" ></script>
   <script src="js/demo/chart-area-demo.js"th:src="@{/js/demo/chart-area-demo.js}"></script>
+  <script th:src="@{/js/bootstrap/js/bootstrap-table.min.js}"></script>
+  <script>
+    $(function () {
+      initab()
+    })
 
+    //初始化bootstrap-table的内容
+    var initab=function () {
+      //记录页面bootstrap-table全局变量$table，方便应用
+      var queryUrl ='/data/getAllListOfDepartment'
+      $table = $('#depid').bootstrapTable({
+        url: queryUrl,                      //请求后台的URL（*）
+        method: 'GET',                      //请求方式（*）
+        //toolbar: '#toolbar',              //工具按钮用哪个容器
+        striped: true,                      //是否显示行间隔色
+        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+        pagination: true,                   //是否显示分页（*）
+        sortable: true,                     //是否启用排序
+        sortOrder: "asc",                   //排序方式
+        sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+        pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
+        pageSize: 10,                     //每页的记录行数（*）
+        pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+        search: false,                      //是否显示表格搜索
+        strictSearch: true,
+        showColumns: true,                  //是否显示所有的列（选择显示的列）
+        showRefresh: true,                  //是否显示刷新按钮
+        minimumCountColumns: 2,             //最少允许的列数
+        clickToSelect: true,                //是否启用点击选中行
+        //height: 500,                      //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+        uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+        showToggle: true,                   //是否显示详细视图和列表视图的切换按钮
+        cardView: false,                    //是否显示详细视图
+        detailView: false,                  //是否显示父子表
+        //得到查询的参数
+        queryParams : function (params) {
+          //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
+          var temp = {};
+          return temp;
+        },
+        responseHandler:function (rows) {
+          console.log(rows)
+          return rows.data;
+        },
+        columns: [{
+          checkbox: true,
+          visible: true                  //是否显示复选框
+        }, {
+          field: 'id',
+          title: '序号',
+          sortable: true
+        }, {
+          field: 'name',
+          title: '部门名称',
+          sortable: true
+        }, {
+          field: 'pid',
+          title: '上级部门',
+          sortable: true,
+        },{
+          field: 'dpId',
+          title: '项目唯一值'
+        } ],
+        onLoadSuccess: function () {
+          console.log('加载完成');
+        },
+        onLoadError: function () {
+          showTips("数据加载失败！");
+        },
+        onDblClickRow: function (row, $element) {
+          var id = row.ID;
+          EditViewById(id, 'view');
+        },
+      });
+    };
+    var EditViewById=function (value) {
+      console.log(value);
+    }
+    var DeleteByIds=function (value) {
+      console.log(value)
+    }
+    function showAdd(){
+
+      $('#myModal5').modal('show');
+
+    }
+    function showUpdate(){
+
+    }
+    function deleteId(){
+
+    }
+    function addDep() {
+      let pid=$("#pid").val();
+      let dpid=$("#dpId").val();
+      let name=$("#name").val();
+      var params={pid,dpid,name};
+      console.log(params);
+      $.get({
+        url:'/data/adddep',
+        data:params,
+        dataType:'json',
+        success:function (data) {
+          console.log(data);
+          $('#depid').bootstrapTable('refresh',{slient:true})
+          $('#myModal5').modal('hide');
+        }
+      })
+    }
+
+  </script>
 </body>
 
 </html>
