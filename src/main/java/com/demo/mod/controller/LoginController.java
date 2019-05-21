@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Controller
@@ -24,7 +26,7 @@ public class LoginController {
      * @return
      */
     @RequestMapping("/goLogin")
-    public String goLogin(@RequestParam Map<String,Object> map,Map viewMap){
+    public String goLogin(@RequestParam Map<String,Object> map, Map viewMap, HttpServletRequest servletRequest){
         User user = mainService.userLogin((String) map.get("username"), (String) map.get("password"));
         LOGGER.info(user.toString());
         viewMap.put("msg","登陆成功");
@@ -32,6 +34,7 @@ public class LoginController {
             viewMap.put("msg","登陆失败");
             return "/login";
         }
+        servletRequest.getSession().setAttribute("user",user);
         return "/index";
     }
 }
