@@ -89,7 +89,7 @@
 
     <!-- Sidebar -->
     <ul class="sidebar navbar-nav" th:fragment="sidebar">
-      <li class="nav-item active" ><!---->
+      <li class="nav-item " ><!---->
         <a class="nav-link" th:href="@{/page/index}">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <!--<span th:text="${#request.getRequestURI()}">Dashboard</span>-->
@@ -113,7 +113,7 @@
           <a class="dropdown-item" th:href="@{/blank}">Blank Page</a>
         </div>
       </li>-->
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link" th:href="@{/page/dep}">
           <i class="fas fa-fw fa-chart-area"></i>
           <span>添加部门</span></a>
