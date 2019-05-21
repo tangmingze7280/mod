@@ -10,6 +10,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         super.addViewControllers(registry);
-        registry.addRedirectViewController("/","/login");
+        registry.addRedirectViewController("/","/page/login");
     }
 }

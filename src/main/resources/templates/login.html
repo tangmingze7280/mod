@@ -25,10 +25,10 @@
     <div class="card card-login mx-auto mt-5">
       <div class="card-header">Login</div>
       <div class="card-body">
-        <form >
+        <form method="post" th:action="@{/login/goLogin}">
           <div class="form-group">
             <div class="form-label-group">
-              <input type="email" id="inputEmail" name="username" class="form-control" placeholder="Email address" required="required" autofocus="autofocus">
+              <input type="text" id="inputEmail" name="username" class="form-control" placeholder="Email address" required="required" autofocus="autofocus">
               <label for="inputEmail">Username</label>
             </div>
           </div>
@@ -45,7 +45,7 @@
               </label>
             </div>
           </div>
-          <button class="btn btn-primary btn-block" onclick="login()"></button>
+          <input type="submit" class="btn btn-primary btn-block" >登录</input>
         </form>
         <div class="text-center">
         </div>
@@ -63,15 +63,12 @@
     $(function(){
 
     })
-    function login(){
+    /*function login(){
         let username=$("#inputEmail").val();
         let password=$("#inputPassword").val();
         let params={username,password};
-        console.log(params);
-        $.post({
-          url:'/'
-        })
-    }
+        console.log(params)
+    }*/
   </script>
 </body>
 
