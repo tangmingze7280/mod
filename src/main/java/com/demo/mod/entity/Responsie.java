@@ -9,11 +9,9 @@ public class Responsie {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @Column(length = 32)
-    private String name;//职位名  院长校长
+    private String name;//职位名  院长w校长
     @Column
     private Integer pId;//上级id
-    @Column(unique = true)
-    private Integer zjId;//政治上的id
     @Column(unique = true)
     private Integer xzId;//外键
 
@@ -39,14 +37,6 @@ public class Responsie {
 
     public void setpId(Integer pId) {
         this.pId = pId;
-    }
-
-    public Integer getZjId() {
-        return zjId;
-    }
-
-    public void setZjId(Integer zjId) {
-        this.zjId = zjId;
     }
 
     public Integer getXzId() {
