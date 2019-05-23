@@ -7,6 +7,7 @@ import com.demo.mod.bean.Person;
 import com.demo.mod.dao.DepartmentDao;
 import com.demo.mod.dao.PersonnativDao;
 import com.demo.mod.entity.Department;
+import com.demo.mod.entity.Personnativ;
 import com.demo.mod.result.CommonResult;
 import com.demo.mod.service.MainService;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -133,13 +135,30 @@ public class ApiController {
         }
         Query dataQuery = entityManager.createNativeQuery(sb.toString());
 
-        List<Object[]> someOnePositionList =   dataQuery.getResultList();
-        List<Person> resultList=new LinkedList<>();
-        for(Object[] obj:someOnePositionList){
-            Person person=new Person((Integer)obj[0],(String)obj[2],(String)obj[7],(String)obj[6],(String)obj[5],(Integer)obj[4],(Integer)obj[3],(Integer)obj[1]);
+        List<Object[]> someOnePositionList = dataQuery.getResultList();
+        List<Person> resultList = new LinkedList<>();
+        for (Object[] obj : someOnePositionList) {
+            Person person = new Person((Integer) obj[0], (String) obj[2], (String) obj[7], (String) obj[6], (String) obj[5], (Integer) obj[4], (Integer) obj[3], (Integer) obj[1]);
             resultList.add(person);
         }
         commonResult.setData(resultList);
+        return commonResult;
+    }
+
+    @RequestMapping("/addperson")
+    public CommonResult addPerson(@RequestParam Map<String, Object> map) {
+        CommonResult commonResult = new CommonResult();
+        String name=(String) map.get("name");//人名
+        Integer zjId=(Integer)map.get("zjId");//政治上的
+        Integer xzId=(Integer)map.get("xzId");//职级
+        Integer dpId=(Integer)map.get("dpId");//部门
+        Personnativ personnativ=new Personnativ();
+        personnativ.setName(name);
+        personnativ.setZjId(zjId);
+        personnativ.setXzId(xzId);
+        personnativ.setDpId(dpId);
+        personnativDao.save(personnativ);
+        commonResult.setMsg("新增成功！");
         return commonResult;
     }
 }
