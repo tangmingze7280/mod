@@ -162,7 +162,8 @@
                             <input type="text" class="form-control" id="jb" placeholder="职位"/>
                         </div>
                         <div class="mb-4" id="btns">
-                            <button class="btn-dark" onclick="sreachMap()">查询</button>
+                            <label for="sreach">操作</label>
+                            <button id="sreach" class="btn-dark form-control" onclick="sreachMap()">查询</button>
                         </div>
                     </div>
                 </div>
@@ -217,16 +218,17 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="dpId">部门编号</label>
-                        <input type="text" class="form-control" id="dpId" placeholder="部门编号">
-                        <small id="emailHelp" class="form-text text-muted">唯一</small>
+                        <label for="person-name">人员名称</label>
+                        <input type="text" class="form-control" id="person-name" placeholder="人员名称">
                     </div>
                     <div class="form-group" id="select_text">
 
                     </div>
-                    <div class="form-group">
-                        <label for="name">部门名称</label>
-                        <input type="text" class="form-control" id="name" placeholder="部门上级">
+                    <div class="form-group" id="select_zjinp">
+
+                    </div>
+                    <div class="form-group"id="select_zwinp">
+
                     </div>
                 </form>
             </div>
@@ -331,15 +333,16 @@
                 title: '部门'
             },{
                 field: 'zjId',
-                title: '排序标识'
+                title: '排序标识',
+                sortable: true
             }],
             onLoadSuccess: function () {
                 console.log('加载完成');
-                /*var target = dataDep.map((e) => {
+                /*var target = dataTap.map((e) => {
                     var a = new Array();
                     var x = {
                         dpId: e.dpId,
-                        name: e.name
+                        name: e.depName
                     }
                     a.push(x)
                     return a;
@@ -350,8 +353,8 @@
                     options += "<option value='" + target[i][0].dpId + "'>" + target[i][0].name + "</option>"
                 }
                 options += "<option value='" + 0 + "'>" + '无上级' + "</option>"
-                var htmlText = ` <label for="pid">上级部门</label>
-              <select class="form-control" id="pid">
+                var htmlText = ` <label for="depid">上级部门</label>
+              <select class="form-control" id="depid">
                ${options}
               </select>`;
                 console.log(htmlText);
@@ -372,9 +375,10 @@
      * 查询
      */
     function sreachMap() {
-        $('#persontab').bootstrapTable('',{
+        $('#persontab').bootstrapTable('refresh', {slient: true})
+    }
+    function initFromSelect() {
 
-        })
     }
 </script>
 </body>

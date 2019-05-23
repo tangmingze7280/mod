@@ -15,6 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +35,8 @@ public class ApiController {
     DepartmentDao departmentDao;
     @Autowired
     PersonnativDao personnativDao;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @RequestMapping("/getAllListOfDepartment")
     public CommonResult getAllListOfDepartment() {
@@ -104,23 +112,28 @@ public class ApiController {
     @RequestMapping(value = "/sreachTab")
     public CommonResult selectItemForTable(@RequestParam Map<String, Object> map) {
         CommonResult commonResult = new CommonResult();
-        Integer zjId = Integer.valueOf((String) map.get("zjId"));
-        Integer xzId = Integer.valueOf((String) map.get("xzId"));
-        Integer dpId = Integer.valueOf((String) map.get("dpId"));
-        String name = (String) map.get("name");
-        StringBuffer sb = new StringBuffer("select  p.*,d.name,j.name,a.name from  ")
-                .append("personnativ p,department d,job_instructions j, responsie  a")
+        StringBuffer sb = new StringBuffer("select  p.id id,p.dp_id did,p.name pname, p.xz_id xid,p.zj_id zid,d.name dname,j.name jname,a.name aname from  ")
+                .append(" personnativ p,department d , job_instructions j, responsie  a ")
                 .append("where 1=1 and p.dp_id=d.dp_id and p.xz_id= a.xz_id and p.zj_id=j.zj_id ");
+        String name = (String) map.get("name");
+        if (!StringUtils.isEmpty(name)) {
+            sb.append(" and p.name=" + name);
+        }
+        if (!StringUtils.isEmpty((String) map.get("dpId"))) {
+            Integer dpId = Integer.valueOf((String) map.get("dpId"));
+            sb.append("  and p.dp_id=" + dpId);
+        }
+        if (!StringUtils.isEmpty((String) map.get("xzId"))) {
+            Integer xzId = Integer.valueOf((String) map.get("xzId"));
+            sb.append("   and p.xz_id=" + xzId);
+        }
+        if (!StringUtils.isEmpty((String) map.get("zjId"))) {
+            Integer zjId = Integer.valueOf((String) map.get("zjId"));
+            sb.append(" and p.zj_id=" + zjId);
+        }
+        Query dataQuery = entityManager.createNativeQuery(sb.toString());
 
-        if (StringUtils.isEmpty(name))
-            sb.append(" and p.name="+name);
-        if (dpId!=null)
-            sb.append("  and p.dp_id="+dpId);
-        if (xzId!=null)
-            sb.append("   and p.xz_id="+xzId);
-        if (zjId!=null)
-            sb.append(" and p.zj_id="+zjId);
-        List<Object[]> someOnePositionList = personnativDao.getSomeOnePositionList(sb.toString());
+        List<Object[]> someOnePositionList =   dataQuery.getResultList();
         List<Person> resultList=new LinkedList<>();
         for(Object[] obj:someOnePositionList){
             Person person=new Person((Integer)obj[0],(String)obj[2],(String)obj[7],(String)obj[6],(String)obj[5],(Integer)obj[4],(Integer)obj[3],(Integer)obj[1]);

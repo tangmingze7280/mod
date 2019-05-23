@@ -8,6 +8,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface PersonnativDao extends CrudRepository<Personnativ,Integer> {
-    @Query(value = "1?",nativeQuery = true)
-    List<Object[]> getSomeOnePositionList(String sql);
+
 }
