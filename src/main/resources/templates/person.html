@@ -437,11 +437,12 @@
     }
 
     function showAdd() {
+        initFromSelect()
         $('#save-controller').text('添加')
         $('#myModal5').modal('show');
     }
     function showUpdate() {
-        var rows = $('#depid').bootstrapTable('getSelections')
+        var rows = $('#persontab').bootstrapTable('getSelections')
         console.log(rows)
         if (rows.length !=1) {
             alert('必须选1条数据！！')
@@ -451,19 +452,11 @@
         $('#myModal5').modal('show');
 
         var row = rows[0];
-        let options = "<option value='" + row.pid + "' selected>" + row.name + "</option>"
-        var htmlText = ` <label for="pid">上级部门</label>
-              <select class="form-control" id="pid">
-               ${options}
-              </select>`;
-        $('#select_text').html(htmlText)
-        $("#pid").val(row.pid);
-        $("#pid").find(`option:contains(${row.pid})`).attr("selected", true);
-        console.log($("#pid").val())
-        $("#pid").attr("disabled", "disabled")
-        $('#name').val(row.name);
-        $('#dpId').val(row.dpId);
-        $('#dpId').attr("readonly", "readonly")
+        console.log(row);
+        $('#depid').val(row.dpId);
+        $('#zjinp').val(row.zjId);
+        $('#zwinp').val(row.xzId);
+
     }
     function saveContro() {
         var flag = $('#save-controller').text()

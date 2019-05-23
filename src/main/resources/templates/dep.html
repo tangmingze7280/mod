@@ -351,6 +351,7 @@
     }
 
     function showAdd() {
+        $('#depid').bootstrapTable('refresh', {slient: true});
         $('#dpId').attr("readonly", false)
         $("#pid").attr("disabled", false)
         $('#save-controller').text('添加')
