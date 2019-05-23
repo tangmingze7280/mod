@@ -5,9 +5,13 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.demo.mod.bean.Person;
 import com.demo.mod.dao.DepartmentDao;
+import com.demo.mod.dao.JobInstructionsDao;
 import com.demo.mod.dao.PersonnativDao;
+import com.demo.mod.dao.ResponsieDao;
 import com.demo.mod.entity.Department;
+import com.demo.mod.entity.JobInstructions;
 import com.demo.mod.entity.Personnativ;
+import com.demo.mod.entity.Responsie;
 import com.demo.mod.result.CommonResult;
 import com.demo.mod.service.MainService;
 import org.slf4j.Logger;
@@ -23,6 +27,7 @@ import javax.persistence.Query;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +42,10 @@ public class ApiController {
     DepartmentDao departmentDao;
     @Autowired
     PersonnativDao personnativDao;
+    @Autowired
+    JobInstructionsDao jobInstructionsDao;
+    @Autowired
+    ResponsieDao responsieDao;
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -118,23 +127,37 @@ public class ApiController {
                 .append(" personnativ p,department d , job_instructions j, responsie  a ")
                 .append("where 1=1 and p.dp_id=d.dp_id and p.xz_id= a.xz_id and p.zj_id=j.zj_id ");
         String name = (String) map.get("name");
+        Integer dpId=new Integer(0);
+        Integer xzId=new Integer(0);
+        Integer zjId=new Integer(0);
         if (!StringUtils.isEmpty(name)) {
-            sb.append(" and p.name=" + name);
+            sb.append(" and p.name=:name");
         }
         if (!StringUtils.isEmpty((String) map.get("dpId"))) {
-            Integer dpId = Integer.valueOf((String) map.get("dpId"));
-            sb.append("  and p.dp_id=" + dpId);
+             dpId = Integer.valueOf((String) map.get("dpId"));
+            sb.append("  and p.dp_id=:dpId");
         }
         if (!StringUtils.isEmpty((String) map.get("xzId"))) {
-            Integer xzId = Integer.valueOf((String) map.get("xzId"));
-            sb.append("   and p.xz_id=" + xzId);
+            xzId = Integer.valueOf((String) map.get("xzId"));
+            sb.append("   and p.xz_id=:xzId ");
         }
         if (!StringUtils.isEmpty((String) map.get("zjId"))) {
-            Integer zjId = Integer.valueOf((String) map.get("zjId"));
-            sb.append(" and p.zj_id=" + zjId);
+            zjId = Integer.valueOf((String) map.get("zjId"));
+            sb.append(" and p.zj_id=:zjId ");
         }
         Query dataQuery = entityManager.createNativeQuery(sb.toString());
-
+        if (sb.toString().indexOf(":name") != -1) {
+            dataQuery.setParameter("name", name);
+        }
+        if (sb.toString().indexOf(":dpId") != -1) {
+            dataQuery.setParameter("dpId",dpId);
+        }
+        if (sb.toString().indexOf(":xzId") != -1) {
+            dataQuery.setParameter("xzId", xzId);
+        }
+        if (sb.toString().indexOf(":zjId") != -1) {
+            dataQuery.setParameter("zjId", zjId);
+        }
         List<Object[]> someOnePositionList = dataQuery.getResultList();
         List<Person> resultList = new LinkedList<>();
         for (Object[] obj : someOnePositionList) {
@@ -148,17 +171,43 @@ public class ApiController {
     @RequestMapping("/addperson")
     public CommonResult addPerson(@RequestParam Map<String, Object> map) {
         CommonResult commonResult = new CommonResult();
-        String name=(String) map.get("name");//人名
-        Integer zjId=(Integer)map.get("zjId");//政治上的
-        Integer xzId=(Integer)map.get("xzId");//职级
-        Integer dpId=(Integer)map.get("dpId");//部门
-        Personnativ personnativ=new Personnativ();
+        String name = (String) map.get("pname");//人名
+        Integer zjId = Integer.valueOf((String) map.get("zjinp"));//政治上的
+        Integer xzId = Integer.valueOf((String) map.get("zwinp"));//职级
+        Integer dpId = Integer.valueOf((String) map.get("depid"));//部门
+        Personnativ personnativ = new Personnativ();
         personnativ.setName(name);
         personnativ.setZjId(zjId);
         personnativ.setXzId(xzId);
         personnativ.setDpId(dpId);
         personnativDao.save(personnativ);
         commonResult.setMsg("新增成功！");
+        return commonResult;
+    }
+
+    @RequestMapping("/initSelect")
+    public CommonResult initSelect(@RequestParam Map<String, Object> map) {
+        CommonResult commonResult = new CommonResult();
+        List<JobInstructions> all = (List<JobInstructions>) jobInstructionsDao.findAll();
+        List<Responsie> all1 = (List<Responsie>) responsieDao.findAll();
+        List<Department> all2 = (List<Department>) departmentDao.findAll();
+        Map<String, Object> resMap = new Hashtable<>();
+        resMap.put("job", all);
+        resMap.put("resp", all1);
+        resMap.put("dep", all2);
+        commonResult.setData(resMap);
+        return commonResult;
+    }
+
+    @RequestMapping(value="/delPerson", produces = "application/json;charset=utf-8;",
+            method = {RequestMethod.POST})
+    public CommonResult delPerson(@RequestBody String jsonData) {
+        CommonResult commonResult = new CommonResult();
+        List<Person> personList = JSON.parseArray(jsonData, Person.class);
+        commonResult.setMsg("删除成功！");
+        for (Person person : personList) {
+            personnativDao.delete(person.getId());
+        }
         return commonResult;
     }
 }

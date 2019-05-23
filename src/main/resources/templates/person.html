@@ -227,7 +227,7 @@
                     <div class="form-group" id="select_zjinp">
 
                     </div>
-                    <div class="form-group"id="select_zwinp">
+                    <div class="form-group" id="select_zwinp">
 
                     </div>
                 </form>
@@ -264,9 +264,10 @@
 <script th:src="@{/js/bootstrap/js/bootstrap-table.min.js}"></script>
 <script>
     $(function () {
-         initab();
+        initab();
+        initFromSelect();
     })
-    var dataTap=''
+    var dataTap = ''
     var initab = function () {
         //记录页面bootstrap-table全局变量$table，方便应用
         var queryUrl = '/data/sreachTab'
@@ -298,10 +299,10 @@
             queryParams: function (params) {
                 //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
                 var temp = {
-                    name:$('#personName').val()||'',
-                    xzId:$('#position').val()||'',
-                    dpId:$('#depNum').val()||'',
-                    zjId:$('#jb').val()||'',
+                    name: $('#personName').val() || '',
+                    xzId: $('#position').val() || '',
+                    dpId: $('#depNum').val() || '',
+                    zjId: $('#jb').val() || '',
                 };
                 return temp;
             },
@@ -331,34 +332,14 @@
             }, {
                 field: 'depName',
                 title: '部门'
-            },{
+            }, {
                 field: 'zjId',
                 title: '排序标识',
                 sortable: true
             }],
             onLoadSuccess: function () {
                 console.log('加载完成');
-                /*var target = dataTap.map((e) => {
-                    var a = new Array();
-                    var x = {
-                        dpId: e.dpId,
-                        name: e.depName
-                    }
-                    a.push(x)
-                    return a;
-                });
-                console.log(target)
-                var options = '';
-                for (var i = 0; i < target.length; i++) {
-                    options += "<option value='" + target[i][0].dpId + "'>" + target[i][0].name + "</option>"
-                }
-                options += "<option value='" + 0 + "'>" + '无上级' + "</option>"
-                var htmlText = ` <label for="depid">上级部门</label>
-              <select class="form-control" id="depid">
-               ${options}
-              </select>`;
-                console.log(htmlText);
-                $('#select_text').html(htmlText)*/
+
 
             },
             onLoadError: function () {
@@ -377,8 +358,173 @@
     function sreachMap() {
         $('#persontab').bootstrapTable('refresh', {slient: true})
     }
-    function initFromSelect() {
 
+    function initFromSelect() {
+        $.ajax({
+            url: '/data/initSelect',
+            method: 'get',
+            data: '',
+            dataType: 'JSON',
+            success: function (data) {
+                console.log(data);
+                let dep = data.data.dep;
+                let job = data.data.job;
+                let resp = data.data.resp;
+                let target = dep.map((e) => {
+                    var a = new Array();
+                    var x = {
+                        dpId: e.dpId,
+                        name: e.name
+                    }
+                    a.push(x)
+                    return a;
+                });
+                console.log(target)
+                var options = '';
+                for (var i = 0; i < target.length; i++) {
+                    options += "<option value='" + target[i][0].dpId + "'>" + target[i][0].name + "</option>"
+                }
+                var htmlText = ` <label for="depid">部门</label>
+              <select class="form-control" id="depid">
+               ${options}
+              </select>`;
+                console.log(htmlText);
+                $('#select_text').html(htmlText);
+
+                target = job.map((e) => {
+                    var a = new Array();
+                    var x = {
+                        dpId: e.zjId,
+                        name: e.name
+                    }
+                    a.push(x)
+                    return a;
+                });
+                console.log(target);
+                var options = '';
+                for (var i = 0; i < target.length; i++) {
+                    options += "<option value='" + target[i][0].dpId + "'>" + target[i][0].name + "</option>"
+                }
+                var htmlText = ` <label for="zjinp">职级</label>
+              <select class="form-control" id="zjinp">
+               ${options}
+              </select>`;
+                console.log(htmlText);
+                $('#select_zjinp').html(htmlText);
+
+                target = resp.map((e) => {
+                    var a = new Array();
+                    var x = {
+                        dpId: e.xzId,
+                        name: e.name
+                    }
+                    a.push(x)
+                    return a;
+                });
+                console.log(target);
+                var options = '';
+                for (var i = 0; i < target.length; i++) {
+                    options += "<option value='" + target[i][0].dpId + "'>" + target[i][0].name + "</option>"
+                }
+                var htmlText = ` <label for="zwinp">职级</label>
+              <select class="form-control" id="zwinp">
+               ${options}
+              </select>`;
+                console.log(htmlText);
+                $('#select_zwinp').html(htmlText);
+            }
+        })
+    }
+
+    function showAdd() {
+        $('#save-controller').text('添加')
+        $('#myModal5').modal('show');
+    }
+    function showUpdate() {
+        var rows = $('#depid').bootstrapTable('getSelections')
+        console.log(rows)
+        if (rows.length !=1) {
+            alert('必须选1条数据！！')
+            return;
+        }
+        $('#save-controller').text('修改')
+        $('#myModal5').modal('show');
+
+        var row = rows[0];
+        let options = "<option value='" + row.pid + "' selected>" + row.name + "</option>"
+        var htmlText = ` <label for="pid">上级部门</label>
+              <select class="form-control" id="pid">
+               ${options}
+              </select>`;
+        $('#select_text').html(htmlText)
+        $("#pid").val(row.pid);
+        $("#pid").find(`option:contains(${row.pid})`).attr("selected", true);
+        console.log($("#pid").val())
+        $("#pid").attr("disabled", "disabled")
+        $('#name').val(row.name);
+        $('#dpId').val(row.dpId);
+        $('#dpId').attr("readonly", "readonly")
+    }
+    function saveContro() {
+        var flag = $('#save-controller').text()
+        console.log(flag);
+        if (flag == '添加') {
+            addPerson();
+        } else {
+            updatePerson()
+        }
+    }
+
+    var addPerson = function () {
+        let pname = $('#person-name').val();
+        let depid = $('#depid').val();
+        let zwinp = $('#zwinp').val();
+        let zjinp = $('#zjinp').val();
+        let params = {pname, depid, zwinp, zjinp}
+        console.log(params);
+        $.ajax({
+            url: '/data/addperson',
+            method: 'get',
+            data: params,
+            dataType: 'JSON',
+            success: function (data) {
+                alert(data.msg)
+                $('#person-name').val('')
+                $('#persontab').bootstrapTable('refresh', {slient: true});
+                $('#myModal5').modal('hide');
+            }
+        })
+    }
+    var updatePerson = function () {
+
+    }
+    var deleteId = function () {
+        var rows = $('#persontab').bootstrapTable('getSelections');
+        console.log(rows);
+        var department = rows.map((e) => {
+            var map = {}
+            map.id = e.id;
+            map.position = e.position;
+            map.name = e.name;
+            map.rank = e.rank;
+            map.depName = e.depName;
+            map.zjId = e.zjId;
+            map.xzId = e.xzId;
+            map.dpId = e.dpId;
+            return map;
+        })
+        console.log(department)
+        $.ajax({
+            url: '/data/delPerson',
+            method: 'post',
+            data: JSON.stringify(rows),
+            contentType: "application/json;charset=utf-8;",
+            dataType: 'JSON',
+            success: function (data) {
+                alert(data.msg)
+                $('#persontab').bootstrapTable('refresh', {slient: true});
+            }
+        })
     }
 </script>
 </body>
