@@ -12,10 +12,14 @@ public class Personnativ {
     private Integer id;
     @Column
     private String name;//人名
+    @Column
     private Integer zjId;//政治上的
+    @Column
     private Integer xzId;//职级
-    private Integer dpId;//部门
-
+    @Column
+    private Integer dpId;//所属部门
+    @Column
+    private String depList;//分管部门
     public Integer getId() {
         return id;
     }
@@ -54,5 +58,13 @@ public class Personnativ {
 
     public void setDpId(Integer dpId) {
         this.dpId = dpId;
+    }
+
+    public String getDepList() {
+        return depList;
+    }
+
+    public void setDepList(String depList) {
+        this.depList = depList;
     }
 }

@@ -146,7 +146,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="mb-4">
-                            <label for="dpId">部门编号</label>
+                            <label for="depNum">部门编号</label>
                             <input type="text" class="form-control" id="depNum" placeholder="部门编号"/>
                         </div>
                         <div class="mb-4" id="person">
@@ -228,6 +228,9 @@
 
                     </div>
                     <div class="form-group" id="select_zwinp">
+
+                    </div>
+                    <div class="form-group" id="select_alldep">
 
                     </div>
                 </form>
@@ -384,7 +387,7 @@
                 for (var i = 0; i < target.length; i++) {
                     options += "<option value='" + target[i][0].dpId + "'>" + target[i][0].name + "</option>"
                 }
-                var htmlText = ` <label for="depid">部门</label>
+                var htmlText = ` <label for="depid">所属部门</label>
               <select class="form-control" id="depid">
                ${options}
               </select>`;
@@ -426,12 +429,33 @@
                 for (var i = 0; i < target.length; i++) {
                     options += "<option value='" + target[i][0].dpId + "'>" + target[i][0].name + "</option>"
                 }
-                var htmlText = ` <label for="zwinp">职级</label>
+                var htmlText = ` <label for="zwinp">职位</label>
               <select class="form-control" id="zwinp">
                ${options}
               </select>`;
                 console.log(htmlText);
                 $('#select_zwinp').html(htmlText);
+
+                target = dep.map((e) => {
+                    var a = new Array();
+                    var x = {
+                        dpId: e.dpId,
+                        name: e.name
+                    };
+                    a.push(x);
+                    return a;
+                });
+                console.log(target);
+                var options = '';
+                for (var i = 0; i < target.length; i++) {
+                    options += "<option value='" + target[i][0].dpId + "'>" + target[i][0].name + "</option>"
+                }
+                var htmlText = ` <label for="alldep">分管部门</label>
+              <select class="form-control" id="alldep" multiple>
+               ${options}
+              </select>`;
+                console.log(htmlText);
+                $('#select_alldep').html(htmlText);
             }
         })
     }
@@ -441,10 +465,11 @@
         $('#save-controller').text('添加')
         $('#myModal5').modal('show');
     }
+
     function showUpdate() {
         var rows = $('#persontab').bootstrapTable('getSelections')
         console.log(rows)
-        if (rows.length !=1) {
+        if (rows.length != 1) {
             alert('必须选1条数据！！')
             return;
         }
@@ -458,6 +483,7 @@
         $('#zwinp').val(row.xzId);
 
     }
+
     function saveContro() {
         var flag = $('#save-controller').text()
         console.log(flag);
@@ -473,7 +499,8 @@
         let depid = $('#depid').val();
         let zwinp = $('#zwinp').val();
         let zjinp = $('#zjinp').val();
-        let params = {pname, depid, zwinp, zjinp}
+        let depAll= $('#alldep').val();
+        let params = {pname, depid, zwinp, zjinp,depAll}
         console.log(params);
         $.ajax({
             url: '/data/addperson',

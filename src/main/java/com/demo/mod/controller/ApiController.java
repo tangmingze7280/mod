@@ -1,8 +1,7 @@
 package com.demo.mod.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+
 import com.demo.mod.bean.Person;
 import com.demo.mod.dao.DepartmentDao;
 import com.demo.mod.dao.JobInstructionsDao;
@@ -19,14 +18,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
-import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
@@ -123,7 +117,7 @@ public class ApiController {
     @RequestMapping(value = "/sreachTab")
     public CommonResult selectItemForTable(@RequestParam Map<String, Object> map) {
         CommonResult commonResult = new CommonResult();
-        StringBuffer sb = new StringBuffer("select  p.id id,p.dp_id did,p.name pname, p.xz_id xid,p.zj_id zid,d.name dname,j.name jname,a.name aname from  ")
+        StringBuffer sb = new StringBuffer("select  p.id id,p.dp_id did,p.name pname, p.xz_id xid,p.zj_id zid,d.name dname,j.name jname,a.name aname，p.depList depall from  ")
                 .append(" personnativ p,department d , job_instructions j, responsie  a ")
                 .append("where 1=1 and p.dp_id=d.dp_id and p.xz_id= a.xz_id and p.zj_id=j.zj_id ");
         String name = (String) map.get("name");
@@ -161,7 +155,7 @@ public class ApiController {
         List<Object[]> someOnePositionList = dataQuery.getResultList();
         List<Person> resultList = new LinkedList<>();
         for (Object[] obj : someOnePositionList) {
-            Person person = new Person((Integer) obj[0], (String) obj[2], (String) obj[7], (String) obj[6], (String) obj[5], (Integer) obj[4], (Integer) obj[3], (Integer) obj[1]);
+            Person person = new Person((Integer) obj[0], (String) obj[2], (String) obj[7], (String) obj[6], (String) obj[5], (Integer) obj[4], (Integer) obj[3], (Integer) obj[1],(String)obj[obj.length-1]);
             resultList.add(person);
         }
         commonResult.setData(resultList);
@@ -175,11 +169,13 @@ public class ApiController {
         Integer zjId = Integer.valueOf((String) map.get("zjinp"));//政治上的
         Integer xzId = Integer.valueOf((String) map.get("zwinp"));//职级
         Integer dpId = Integer.valueOf((String) map.get("depid"));//部门
+        String depAll=(String) map.get("depAll");
         Personnativ personnativ = new Personnativ();
         personnativ.setName(name);
         personnativ.setZjId(zjId);
         personnativ.setXzId(xzId);
         personnativ.setDpId(dpId);
+        personnativ.setDepList(depAll);
         personnativDao.save(personnativ);
         commonResult.setMsg("新增成功！");
         return commonResult;

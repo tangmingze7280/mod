@@ -10,7 +10,7 @@ public class Person {
     public Person() {
     }
 
-    public Person(Integer id, String name, String position, String rank, String depName, Integer zjId, Integer xzId, Integer dpId) {
+    public Person(Integer id, String name, String position, String rank, String depName, Integer zjId, Integer xzId, Integer dpId, String depAll) {
         this.id = id;
         this.name = name;
         this.position = position;
@@ -19,6 +19,7 @@ public class Person {
         this.zjId = zjId;
         this.xzId = xzId;
         this.dpId = dpId;
+        this.depAll = depAll;
     }
 
     public String getDepName() {
@@ -31,7 +32,7 @@ public class Person {
 
     private Integer xzId;//职级号
     private Integer dpId;//部门
-
+    private String depAll;
     public Integer getId() {
         return id;
     }
@@ -88,6 +89,14 @@ public class Person {
         this.dpId = dpId;
     }
 
+    public String getDepAll() {
+        return depAll;
+    }
+
+    public void setDepAll(String depAll) {
+        this.depAll = depAll;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -95,9 +104,11 @@ public class Person {
                 ", name='" + name + '\'' +
                 ", position='" + position + '\'' +
                 ", rank='" + rank + '\'' +
+                ", depName='" + depName + '\'' +
                 ", zjId=" + zjId +
                 ", xzId=" + xzId +
                 ", dpId=" + dpId +
+                ", depAll='" + depAll + '\'' +
                 '}';
     }
 }
