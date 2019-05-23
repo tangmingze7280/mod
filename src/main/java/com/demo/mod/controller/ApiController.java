@@ -117,9 +117,9 @@ public class ApiController {
     @RequestMapping(value = "/sreachTab")
     public CommonResult selectItemForTable(@RequestParam Map<String, Object> map) {
         CommonResult commonResult = new CommonResult();
-        StringBuffer sb = new StringBuffer("select  p.id id,p.dp_id did,p.name pname, p.xz_id xid,p.zj_id zid,d.name dname,j.name jname,a.name aname，p.depList depall from  ")
+        StringBuffer sb = new StringBuffer("select  p.id id,p.dp_id did,p.name pname, p.xz_id xid,p.zj_id zid,d.name dname,j.name jname,a.name aname,p.dep_list depAll from  ")
                 .append(" personnativ p,department d , job_instructions j, responsie  a ")
-                .append("where 1=1 and p.dp_id=d.dp_id and p.xz_id= a.xz_id and p.zj_id=j.zj_id ");
+                .append(" where 1=1 and p.dp_id=d.dp_id and p.xz_id= a.xz_id and p.zj_id=j.zj_id ");
         String name = (String) map.get("name");
         Integer dpId=new Integer(0);
         Integer xzId=new Integer(0);

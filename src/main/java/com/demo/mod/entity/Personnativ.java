@@ -18,7 +18,7 @@ public class Personnativ {
     private Integer xzId;//职级
     @Column
     private Integer dpId;//所属部门
-    @Column
+    @Column(length = 255)
     private String depList;//分管部门
     public Integer getId() {
         return id;

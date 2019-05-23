@@ -22,6 +22,7 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin.css" th:href="@{/css/sb-admin.min.css}" rel="stylesheet"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-table.min.css}">
+    <link rel="stylesheet" th:href="@{/js/selected/select2.min.css}">
 </head>
 
 <body id="page-top">
@@ -145,9 +146,8 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="mb-4">
-                            <label for="depNum">部门编号</label>
-                            <input type="text" class="form-control" id="depNum" placeholder="部门编号"/>
+                        <div class="mb-4" id="select_top">
+
                         </div>
                         <div class="mb-4" id="person">
                             <label for="personName">人员名</label>
@@ -265,6 +265,7 @@
 <script src="js/demo/datatables-demo.js" th:src="@{/js/demo/datatables-demo.js}"></script>
 <script src="js/demo/chart-area-demo.js" th:src="@{/js/demo/chart-area-demo.js}"></script>
 <script th:src="@{/js/bootstrap/js/bootstrap-table.min.js}"></script>
+<script th:src="@{/js/selected/select2.min.js}"></script>
 <script>
     $(function () {
         initab();
@@ -301,10 +302,14 @@
             //得到查询的参数
             queryParams: function (params) {
                 //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
+                let a='';
+                if($('#depNum').val()!="请选择"&&$('#depNum').val()){
+                    a=$('#depNum').val()
+                }
                 var temp = {
                     name: $('#personName').val() || '',
                     xzId: $('#position').val() || '',
-                    dpId: $('#depNum').val() || '',
+                    dpId: a,
                     zjId: $('#jb').val() || '',
                 };
                 return temp;
@@ -334,7 +339,17 @@
                 title: '职位'
             }, {
                 field: 'depName',
-                title: '部门'
+                title: '所属部门'
+            }, {
+                field: 'depAll',
+                title: '分管部门',
+                formatter: function(field, row, oldValue, $el){
+                    console.log(row,field)
+                    if(field){
+                        return field.substr(1,field.length-2)
+                    }
+                    return field
+                }
             }, {
                 field: 'zjId',
                 title: '排序标识',
@@ -350,7 +365,6 @@
             },
             onDblClickRow: function (row, $element) {//双击事件   没有！ 测试用的
                 var id = row.id;
-                EditViewById(id, 'view');
             },
         });
     };
@@ -448,14 +462,41 @@
                 console.log(target);
                 var options = '';
                 for (var i = 0; i < target.length; i++) {
-                    options += "<option value='" + target[i][0].dpId + "'>" + target[i][0].name + "</option>"
+                    options += "<option value='" + target[i][0].name + "'>" + target[i][0].name + "</option>"
                 }
                 var htmlText = ` <label for="alldep">分管部门</label>
-              <select class="form-control" id="alldep" multiple>
+              <select class="form-control" id="alldep" multiple="multiple">
                ${options}
               </select>`;
                 console.log(htmlText);
                 $('#select_alldep').html(htmlText);
+                $('#alldep').select2({
+                    placeholder: "Choose a person",
+                    width:"200px",
+                    closeOnSelect: false
+                });
+                target = dep.map((e) => {
+                    var a = new Array();
+                    var x = {
+                        dpId: e.dpId,
+                        name: e.name
+                    }
+                    a.push(x)
+                    return a;
+                });
+                console.log(target)
+                var options = '';
+                for (var i = 0; i < target.length; i++) {
+                    options += "<option value='" + target[i][0].dpId + "'>" + target[i][0].name + "</option>"
+                }
+                options += "<option  selected>请选择</option>"
+                var htmlText = ` <label for="depNum">部门编号</label>
+              <select class="form-control" id="depNum">
+               ${options}
+              </select>`;
+                console.log(htmlText);
+                $('#select_top').html(htmlText);
+
             }
         })
     }
@@ -499,8 +540,10 @@
         let depid = $('#depid').val();
         let zwinp = $('#zwinp').val();
         let zjinp = $('#zjinp').val();
-        let depAll= $('#alldep').val();
-        let params = {pname, depid, zwinp, zjinp,depAll}
+        // let depAll= JSON.stringify($('#alldep').select2('data'));
+        let depAll= JSON.stringify($('#alldep').val())
+        // alert(JSON.stringify($('#e3').select2('data')))
+        let params = {pname, depid, zwinp, zjinp,depAll};
         console.log(params);
         $.ajax({
             url: '/data/addperson',
