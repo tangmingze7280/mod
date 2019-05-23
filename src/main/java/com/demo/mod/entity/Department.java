@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
     @Column
     private Integer pid;//部门的上级
     @Column(length = 32)
@@ -15,11 +15,11 @@ public class Department {
     @Column(unique = true)
     private Integer dpId;//部门外键
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

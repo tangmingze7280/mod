@@ -224,7 +224,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" onclick="addDep()">保存</button>
+                <button id="save-controller" type="button" class="btn btn-primary" onclick="saveContro()">保存</button>
             </div>
         </div>
     </div>
@@ -310,7 +310,7 @@
                 sortable: true,
             }, {
                 field: 'dpId',
-                title: '项目唯一值'
+                title: '部门唯一值'
             }],
             onLoadSuccess: function () {
                 console.log('加载完成');
@@ -328,6 +328,7 @@
                 for (var i = 0; i < target.length; i++) {
                     options += "<option value='" + target[i][0].dpId + "'>" + target[i][0].name + "</option>"
                 }
+                options += "<option value='" +0+ "'>" + '无上级'+ "</option>"
                 var htmlText = ` <label for="pid">上级部门</label>
               <select class="form-control" id="pid">
                ${options}
@@ -352,32 +353,60 @@
     }
 
     function showAdd() {
-
+        $('#dpId').attr("readonly", false)
+        $("#pid").attr("disabled", false)
+        $('#save-controller').text('添加')
         $('#myModal5').modal('show');
 
     }
 
     function showUpdate() {
-        var rows=$('#depid').bootstrapTable('getSelections')
+        var rows = $('#depid').bootstrapTable('getSelections')
         console.log(rows)
-        if(rows.length>1){
-            alert('只能选择一个！去修改')
-            return ;
+        if (rows.length !=1) {
+            alert('必须选1条数据！！')
+            return;
         }
-        var row=rows[0];
+        $('#save-controller').text('修改')
+        $('#myModal5').modal('show');
 
+        var row = rows[0];
+        let options = "<option value='" + row.pid + "' selected>" + row.name + "</option>"
+        var htmlText = ` <label for="pid">上级部门</label>
+              <select class="form-control" id="pid">
+               ${options}
+              </select>`;
+        $('#select_text').html(htmlText)
+        $("#pid").val(row.pid);
+        $("#pid").find(`option:contains(${row.pid})`).attr("selected", true);
+        console.log($("#pid").val())
+        $("#pid").attr("disabled", "disabled")
+        $('#name').val(row.name);
+        $('#dpId').val(row.dpId);
+        $('#dpId').attr("readonly", "readonly")
     }
 
     function deleteId() {
-        var rows=$('#depid').bootstrapTable('getSelections');
-        console.log(rows)
-        var params={rows};
-        $.get({
+        var rows = $('#depid').bootstrapTable('getSelections');
+        console.log(rows);
+        var department = rows.map((e) => {
+            var map = {}
+            map.id = e.id;
+            map.pid = e.pid;
+            map.name = e.name;
+            map.dpId = e.dpId
+            return map;
+        })
+        console.log(department)
+        $.ajax({
             url: '/data/deleteDep',
-            data: params,
+            data: JSON.stringify(department),
+            type: "POST",
+            contentType: "application/json;charset=utf-8;",
             dataType: 'json',
             success: function (data) {
                 alert(data.msg)
+                $('#depid').bootstrapTable('refresh', {slient: true});
             }
         })
     }
@@ -386,7 +415,12 @@
         let pid = $("#pid").val();
         let dpid = $("#dpId").val();
         let name = $("#name").val();
+        if (!(pid && dpid && name)) {
+            alert('请不要有空位')
+            return;
+        }
         var params = {pid, dpid, name};
+
         console.log(params);
         $.get({
             url: '/data/adddep',
@@ -394,14 +428,47 @@
             dataType: 'json',
             success: function (data) {
                 console.log(data);
-                $("#pid").val('');
-                $('#depid').bootstrapTable('refresh', {slient: true})
-                $('#myModal5').modal('hide');
+               if(data.state==200){
+                   $("#pid").val('');
+                   $('#depid').bootstrapTable('refresh', {slient: true});
+                   $('#myModal5').modal('hide');
+                   $("#name").val('');
+                   $('#dpId').val('')
+               }
+                alert(data.msg);
+            }
+        })
+    }
 
+    function updateDep() {
+
+        let dpid = parseInt($("#dpId").val());
+        let name = $("#name").val();
+        var params = {dpid, name};
+        $.get({
+            url: '/data/updateDep',
+            data: params,
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                $("#pid").val('');
+                $('#depid').bootstrapTable('refresh', {slient: true});
+                $('#myModal5').modal('hide');
+                alert(data.msg)
                 $("#name").val('');
                 $('#dpId').val('')
             }
         })
+    }
+
+    function saveContro() {
+        var flag = $('#save-controller').text()
+        console.log(flag);
+        if (flag == '添加') {
+            addDep();
+        } else {
+            updateDep()
+        }
     }
 
 </script>
