@@ -183,7 +183,7 @@ public class ApiController {
         }
         for(Personnativ person:allByDpId){
             for (Object str:objects1){
-                if(person.getDepList().indexOf((String) str)!=-1){
+                if(person.getDepList().indexOf(( String) str)!=-1){
                     commonResult.setMsg(str+"已经被该部门的领导管理");
                     return commonResult;
                 }
