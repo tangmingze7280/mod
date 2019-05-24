@@ -242,6 +242,7 @@
         initab()
     })
     var dataDep = '';
+    var totol=''
     //初始化bootstrap-table的内容
     var initab = function () {
         //记录页面bootstrap-table全局变量$table，方便应用
@@ -296,6 +297,18 @@
                 field: 'pid',
                 title: '上级部门',
                 sortable: true,
+                formatter: function(field, row, oldValue, $el){
+                    if(field==0){
+                        return '无上级'
+                    }
+                    return dataDep.filter((e)=>{
+                        console.log(e);
+                        console.log(e.dpId,field)
+                        if(e.dpId==field)
+                            return true
+
+                    })[0].name;
+                }
             }, {
                 field: 'dpId',
                 title: '部门唯一值'
@@ -311,6 +324,7 @@
                     a.push(x)
                     return a;
                 });
+                totol=target
                 console.log(target)
                 var options = '';
                 for (var i = 0; i < target.length; i++) {

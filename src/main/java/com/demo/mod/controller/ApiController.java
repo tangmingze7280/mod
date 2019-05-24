@@ -60,6 +60,11 @@ public class ApiController {
         department.setName((String) map.get("name"));
         department.setPid(Integer.valueOf((String) map.get("pid")));
         commonResult.setMsg("新增成功");
+        if(department.getDpId()==department.getPid()){
+            commonResult.setMsg("不允许上级自己");
+            commonResult.setState(500);
+            return commonResult;
+        }
         List<Department> allByName = departmentDao.findAllByName(department.getName());
         if (allByName.size() != 0) {
             commonResult.setMsg("不允许同名");
