@@ -496,7 +496,7 @@
         $('#depid').val(row.dpId);
         $('#zjinp').val(row.zjId);
         $('#zwinp').val(row.xzId);
-
+        $('#person-name').val(row.name);
     }
 
     function saveContro() {
@@ -534,7 +534,28 @@
         })
     }
     var updatePerson = function () {
-
+        var rows = $('#persontab').bootstrapTable('getSelections')
+        let id=rows[0].id;
+        let pname = $('#person-name').val();
+        let depid = $('#depid').val();
+        let zwinp = $('#zwinp').val();
+        let zjinp = $('#zjinp').val();
+        let unique=$('#unique').val();
+        let depAll= JSON.stringify($('#alldep').val());
+        let params = {pname, depid, zwinp, zjinp,depAll,unique,id};
+        console.log(params);
+        $.ajax({
+            url: '/data/updateperson',
+            method: 'get',
+            data: params,
+            dataType: 'JSON',
+            success: function (data) {
+                alert(data.msg)
+                $('#person-name').val('')
+                $('#persontab').bootstrapTable('refresh', {slient: true});
+                $('#myModal5').modal('hide');
+            }
+        })
     }
     var deleteId = function () {
         var rows = $('#persontab').bootstrapTable('getSelections');

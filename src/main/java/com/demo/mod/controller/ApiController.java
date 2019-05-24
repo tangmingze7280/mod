@@ -177,7 +177,7 @@ public class ApiController {
         Integer flagunique=Integer.valueOf((String) map.get("unique"));
         List<Personnativ> allByDpId = personnativDao.findAllByDpId(dpId);
         Personnativ personnativByDpIdAndXzId = personnativDao.findPersonnativByDpIdAndXzId(dpId, xzId);
-        if(personnativByDpIdAndXzId.getFlag()==1){
+        if(personnativByDpIdAndXzId!=null&&personnativByDpIdAndXzId.getFlag()==1){
             commonResult.setMsg("该部门该职位是唯一职位");
             return commonResult;
         }
@@ -224,6 +224,45 @@ public class ApiController {
         for (Person person : personList) {
             personnativDao.delete(person.getId());
         }
+        return commonResult;
+    }
+    @RequestMapping("/updateperson")
+    public CommonResult updatePerson(@RequestParam Map<String, Object> map) {
+        CommonResult commonResult = new CommonResult();
+        String name = (String) map.get("pname");//人名
+        Integer id = Integer.valueOf((String) map.get("id"));//政治上的
+        Integer zjId = Integer.valueOf((String) map.get("zjinp"));//政治上的
+        Integer xzId = Integer.valueOf((String) map.get("zwinp"));//职级
+//        Responsie allByXzId = responsieDao.findResponsieByXzId(xzId);
+        Integer dpId = Integer.valueOf((String) map.get("depid"));//部门
+        String depAll=(String) map.get("depAll");
+        JSONArray objects = JSON.parseArray(depAll);
+        Object[] objects1 =  objects.toArray();//分管部门
+        Integer flagunique=Integer.valueOf((String) map.get("unique"));
+        List<Personnativ> allByDpId = personnativDao.findAllByDpId(dpId);
+        Personnativ personnativByDpIdAndXzId = personnativDao.findPersonnativByDpIdAndXzId(dpId, xzId);
+        if(personnativByDpIdAndXzId!=null&&personnativByDpIdAndXzId.getId()!=id&&personnativByDpIdAndXzId.getFlag()==1){
+            commonResult.setMsg("该部门该职位是唯一职位");
+            return commonResult;
+        }
+        for(Personnativ person:allByDpId){
+            for (Object str:objects1){
+                if(person.getId()!=id&&person.getDepList().indexOf((String) str)!=-1){
+                    commonResult.setMsg(str+"已经被该部门的领导管理");
+                    return commonResult;
+                }
+            }
+        }
+        Personnativ personnativ = new Personnativ();
+        personnativ.setId(id);
+        personnativ.setName(name);
+        personnativ.setZjId(zjId);
+        personnativ.setXzId(xzId);
+        personnativ.setDpId(dpId);
+        personnativ.setDepList(depAll);
+        personnativ.setFlag(flagunique);
+        personnativDao.saveAndFlush(personnativ);
+        commonResult.setMsg("修改成功！");
         return commonResult;
     }
 
