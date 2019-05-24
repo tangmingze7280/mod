@@ -8,5 +8,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface PersonnativDao extends CrudRepository<Personnativ,Integer> {
-
+    Personnativ findPersonnativByDpIdAndXzId(Integer dpid,Integer xzid);
+    List<Personnativ> findAllByDpId(Integer dpid);
 }

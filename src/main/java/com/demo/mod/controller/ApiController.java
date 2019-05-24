@@ -2,6 +2,7 @@ package com.demo.mod.controller;
 
 import com.alibaba.fastjson.JSON;
 
+import com.alibaba.fastjson.JSONArray;
 import com.demo.mod.bean.Person;
 import com.demo.mod.dao.DepartmentDao;
 import com.demo.mod.dao.JobInstructionsDao;
@@ -65,9 +66,9 @@ public class ApiController {
             commonResult.setState(500);
             return commonResult;
         }
-        List<Department> allByPid = departmentDao.getAllByPid(department.getPid());
+        List<Department> allByPid = departmentDao.getAllByDpId(department.getDpId());
         if (allByPid.size() != 0) {
-            commonResult.setMsg("不允许形同部门id!");
+            commonResult.setMsg("不允许相同部门id!");
             commonResult.setState(500);
             return commonResult;
         }
@@ -168,14 +169,33 @@ public class ApiController {
         String name = (String) map.get("pname");//人名
         Integer zjId = Integer.valueOf((String) map.get("zjinp"));//政治上的
         Integer xzId = Integer.valueOf((String) map.get("zwinp"));//职级
+        Responsie allByXzId = responsieDao.findResponsieByXzId(xzId);
         Integer dpId = Integer.valueOf((String) map.get("depid"));//部门
         String depAll=(String) map.get("depAll");
+        JSONArray objects = JSON.parseArray(depAll);
+        Object[] objects1 =  objects.toArray();//分管部门
+        Integer flagunique=Integer.valueOf((String) map.get("unique"));
+        List<Personnativ> allByDpId = personnativDao.findAllByDpId(dpId);
+        Personnativ personnativByDpIdAndXzId = personnativDao.findPersonnativByDpIdAndXzId(dpId, xzId);
+        if(personnativByDpIdAndXzId.getFlag()==1){
+            commonResult.setMsg("该部门该职位是唯一职位");
+            return commonResult;
+        }
+        for(Personnativ person:allByDpId){
+            for (Object str:objects1){
+                if(person.getDepList().indexOf((String) str)!=-1){
+                    commonResult.setMsg(str+"已经被该部门的领导管理");
+                    return commonResult;
+                }
+            }
+        }
         Personnativ personnativ = new Personnativ();
         personnativ.setName(name);
         personnativ.setZjId(zjId);
         personnativ.setXzId(xzId);
         personnativ.setDpId(dpId);
         personnativ.setDepList(depAll);
+        personnativ.setFlag(flagunique);
         personnativDao.save(personnativ);
         commonResult.setMsg("新增成功！");
         return commonResult;

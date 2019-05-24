@@ -233,6 +233,12 @@
                     <div class="form-group" id="select_alldep">
 
                     </div>
+                    <div class="form-group" id="select_unique">
+                        <select name="unique" id="unique">
+                            <option value="0" selected>不唯一职位</option>
+                            <option value="1" selected>唯一职位</option>
+                        </select>
+                    </div>
                 </form>
             </div>
 
@@ -315,7 +321,6 @@
                 return temp;
             },
             responseHandler: function (rows) {
-                console.log(rows);
                 dataTap = rows.data;
                 return rows.data;
             },
@@ -344,7 +349,6 @@
                 field: 'depAll',
                 title: '分管部门',
                 formatter: function(field, row, oldValue, $el){
-                    console.log(row,field)
                     if(field){
                         return field.substr(1,field.length-2)
                     }
@@ -368,7 +372,7 @@
             },
         });
     };
-
+    var depListNxet=''
     /**
      * 查询
      */
@@ -383,10 +387,10 @@
             data: '',
             dataType: 'JSON',
             success: function (data) {
-                console.log(data);
                 let dep = data.data.dep;
                 let job = data.data.job;
                 let resp = data.data.resp;
+                depListNxet=dep;
                 let target = dep.map((e) => {
                     var a = new Array();
                     var x = {
@@ -396,16 +400,14 @@
                     a.push(x)
                     return a;
                 });
-                console.log(target)
                 var options = '';
                 for (var i = 0; i < target.length; i++) {
                     options += "<option value='" + target[i][0].dpId + "'>" + target[i][0].name + "</option>"
                 }
                 var htmlText = ` <label for="depid">所属部门</label>
-              <select class="form-control" id="depid">
+              <select class="form-control" id="depid" onchange="changeSelectOfDepList()">
                ${options}
               </select>`;
-                console.log(htmlText);
                 $('#select_text').html(htmlText);
 
                 target = job.map((e) => {
@@ -417,7 +419,7 @@
                     a.push(x)
                     return a;
                 });
-                console.log(target);
+
                 var options = '';
                 for (var i = 0; i < target.length; i++) {
                     options += "<option value='" + target[i][0].dpId + "'>" + target[i][0].name + "</option>"
@@ -438,7 +440,6 @@
                     a.push(x)
                     return a;
                 });
-                console.log(target);
                 var options = '';
                 for (var i = 0; i < target.length; i++) {
                     options += "<option value='" + target[i][0].dpId + "'>" + target[i][0].name + "</option>"
@@ -447,34 +448,9 @@
               <select class="form-control" id="zwinp">
                ${options}
               </select>`;
-                console.log(htmlText);
                 $('#select_zwinp').html(htmlText);
 
-                target = dep.map((e) => {
-                    var a = new Array();
-                    var x = {
-                        dpId: e.dpId,
-                        name: e.name
-                    };
-                    a.push(x);
-                    return a;
-                });
-                console.log(target);
-                var options = '';
-                for (var i = 0; i < target.length; i++) {
-                    options += "<option value='" + target[i][0].name + "'>" + target[i][0].name + "</option>"
-                }
-                var htmlText = ` <label for="alldep">分管部门</label>
-              <select class="form-control" id="alldep" multiple="multiple">
-               ${options}
-              </select>`;
-                console.log(htmlText);
-                $('#select_alldep').html(htmlText);
-                $('#alldep').select2({
-                    placeholder: "Choose a person",
-                    width:"200px",
-                    closeOnSelect: false
-                });
+                changeSelectOfDepList();
                 target = dep.map((e) => {
                     var a = new Array();
                     var x = {
@@ -484,7 +460,6 @@
                     a.push(x)
                     return a;
                 });
-                console.log(target)
                 var options = '';
                 for (var i = 0; i < target.length; i++) {
                     options += "<option value='" + target[i][0].dpId + "'>" + target[i][0].name + "</option>"
@@ -494,7 +469,6 @@
               <select class="form-control" id="depNum">
                ${options}
               </select>`;
-                console.log(htmlText);
                 $('#select_top').html(htmlText);
 
             }
@@ -540,10 +514,11 @@
         let depid = $('#depid').val();
         let zwinp = $('#zwinp').val();
         let zjinp = $('#zjinp').val();
+        let unique=$('#unique').val();
         // let depAll= JSON.stringify($('#alldep').select2('data'));
         let depAll= JSON.stringify($('#alldep').val())
         // alert(JSON.stringify($('#e3').select2('data')))
-        let params = {pname, depid, zwinp, zjinp,depAll};
+        let params = {pname, depid, zwinp, zjinp,depAll,unique};
         console.log(params);
         $.ajax({
             url: '/data/addperson',
@@ -588,6 +563,39 @@
                 $('#persontab').bootstrapTable('refresh', {slient: true});
             }
         })
+    }
+    var changeSelectOfDepList=()=>{
+        let depid = $('#depid').val();
+        console.log(depid);
+        let nextTar = depListNxet.map((e) => {
+            var a = new Array();
+            var x = {
+                dpId: e.dpId,
+                name: e.name,
+                pid:e.pid
+            };
+            a.push(x);
+            return a;
+        });
+        let target=nextTar.filter((e)=>{
+            if(e[0].pid==depid){
+                return true;
+            }
+        });
+        var options = '';
+        for (var i = 0; i < target.length; i++) {
+            options += "<option value='" + target[i][0].name + "'>" + target[i][0].name + "</option>"
+        }
+        var htmlText = ` <label for="alldep">分管部门</label>
+              <select class="form-control" id="alldep" multiple="multiple">
+               ${options}
+              </select>`;
+        $('#select_alldep').html(htmlText);
+        $('#alldep').select2({
+            placeholder: "Choose a person",
+            width:"200px",
+            closeOnSelect: false
+        });
     }
 </script>
 </body>

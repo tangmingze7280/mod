@@ -12,6 +12,7 @@ public interface DepartmentDao extends CrudRepository<Department, Integer> {
     @Modifying
     void deleteById(Integer id);
     List<Department> getAllByPid(Integer pid);
+    List<Department> getAllByDpId(Integer dpid);
     @Modifying
     @Query(value = "update department d set d.name = ?1 where d.dp_id= ?2 ",nativeQuery = true)
     void updateOfname(String name,Integer id);

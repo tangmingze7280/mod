@@ -20,6 +20,7 @@ public class Personnativ {
     private Integer dpId;//所属部门
     @Column(length = 255)
     private String depList;//分管部门
+    private  Integer flag;//是否唯一职位
     public Integer getId() {
         return id;
     }
@@ -66,5 +67,13 @@ public class Personnativ {
 
     public void setDepList(String depList) {
         this.depList = depList;
+    }
+
+    public Integer getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Integer flag) {
+        this.flag = flag;
     }
 }
